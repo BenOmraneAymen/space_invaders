@@ -1,6 +1,6 @@
 import pygame
 from Enemy import Ennemy
-import button
+import Button
 from Bullet import Bullet
 from Player import Player
 
@@ -21,10 +21,10 @@ def main_menu(screen):
     tune2 = pygame.image.load('assets/img/tune2.png')
     start_img = pygame.image.load('assets/img/start_btn.png').convert_alpha()
     exit_img = pygame.image.load('assets/img/exit_btn.png').convert_alpha()
-    start_button = button.Button(300, 350, start_img, 0.7, screen=screen)
-    exit_button = button.Button(300, 450, exit_img, 0.7, screen=screen)
-    tune1_btn = button.Button(700, 500, tune1, 0.3, screen=screen)
-    tune2_btn = button.Button(50, 500, tune2, 0.3, screen=screen)
+    start_button = Button.Button(300, 350, start_img, 0.7, screen=screen)
+    exit_button = Button.Button(300, 450, exit_img, 0.7, screen=screen)
+    tune1_btn = Button.Button(700, 500, tune1, 0.3, screen=screen)
+    tune2_btn = Button.Button(50, 500, tune2, 0.3, screen=screen)
     while running:
         screen.fill((200, 200, 200))
         screen.blit(background, (0, 0))
@@ -50,8 +50,8 @@ def finish(wl):
     exit_img = pygame.image.load('assets/img/exit_btn.png').convert_alpha()
     youWin = pygame.image.load('assets/img/youWin.png')
     youLoss = pygame.image.load('assets/img/youLoss.png')
-    start_button = button.Button(300, 350, start_img, 0.7, screen=screen)
-    exit_button = button.Button(300, 450, exit_img, 0.7, screen=screen)
+    start_button = Button.Button(300, 350, start_img, 0.7, screen=screen)
+    exit_button = Button.Button(300, 450, exit_img, 0.7, screen=screen)
     running = True
     while running:
         screen.fill((200, 200, 200))
@@ -74,18 +74,23 @@ def finish(wl):
         pygame.display.update()
 
 
+def getImg(url):
+    img = pygame.image.load(f'assets/img/{url}.png')
+    return img
+
+
 def level():
-    pick = pygame.image.load('assets/img/pick.png')
-    lvl1 = pygame.image.load('assets/img/num1.png').convert_alpha()
-    lvl2 = pygame.image.load('assets/img/num2.png').convert_alpha()
-    lvl3 = pygame.image.load('assets/img/num3.png').convert_alpha()
-    lvl4 = pygame.image.load('assets/img/num4.png').convert_alpha()
-    lvl5 = pygame.image.load('assets/img/num5.png').convert_alpha()
-    btn_lvl1 = button.Button(100, 250, lvl1, 0.2, screen=screen)
-    btn_lvl2 = button.Button(225, 250, lvl2, 0.2, screen=screen)
-    btn_lvl3 = button.Button(350, 250, lvl3, 0.2, screen=screen)
-    btn_lvl4 = button.Button(475, 250, lvl4, 0.2, screen=screen)
-    btn_lvl5 = button.Button(600, 250, lvl5, 0.2, screen=screen)
+    pick = getImg('pick')
+    lvl1 = getImg('num1').convert_alpha()
+    lvl2 = getImg('num2').convert_alpha()
+    lvl3 = getImg('num3').convert_alpha()
+    lvl4 = getImg('num4').convert_alpha()
+    lvl5 = getImg('num5').convert_alpha()
+    btn_lvl1 = Button.Button(100, 250, lvl1, 0.2, screen=screen)
+    btn_lvl2 = Button.Button(225, 250, lvl2, 0.2, screen=screen)
+    btn_lvl3 = Button.Button(350, 250, lvl3, 0.2, screen=screen)
+    btn_lvl4 = Button.Button(475, 250, lvl4, 0.2, screen=screen)
+    btn_lvl5 = Button.Button(600, 250, lvl5, 0.2, screen=screen)
     running = True
     while running:
         screen.fill((200, 200, 200))
