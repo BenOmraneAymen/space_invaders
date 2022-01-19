@@ -2,25 +2,30 @@ import pygame
 from Enemy import Ennemy
 import Button
 from Bullet import Bullet
+from Helpers import getImg, getSound
 from Player import Player
+from threading import Timer
+
+from StartUp import Startup
+
 
 pygame.init()
 # create the screen
 screen = pygame.display.set_mode((800, 600))
 # Design
-pygame.display.set_caption('project:space  ')
-background = pygame.image.load('assets/img/background.png')
-music = pygame.mixer.Sound("assets/audio/background_music.mp3")
+pygame.display.set_caption('project:space invaders ')
+background = getImg('background')
+music = getSound("background_music")
 music.play(-1)
 
 
 def main_menu(screen):
     running = True
-    title = pygame.image.load('assets/img/space-invaders-logo.png')
-    tune1 = pygame.image.load('assets/img/tune1.png')
-    tune2 = pygame.image.load('assets/img/tune2.png')
-    start_img = pygame.image.load('assets/img/start_btn.png').convert_alpha()
-    exit_img = pygame.image.load('assets/img/exit_btn.png').convert_alpha()
+    title = getImg("space-invaders-logo")
+    tune1 = getImg('tune1')
+    tune2 = getImg('tune2')
+    start_img = getImg('start_btn').convert_alpha()
+    exit_img = getImg('exit_btn').convert_alpha()
     start_button = Button.Button(300, 350, start_img, 0.7, screen=screen)
     exit_button = Button.Button(300, 450, exit_img, 0.7, screen=screen)
     tune1_btn = Button.Button(700, 500, tune1, 0.3, screen=screen)
@@ -38,7 +43,14 @@ def main_menu(screen):
             running = False
         tune1_btn.draw()
         tune2_btn.draw()
+
         for event in pygame.event.get():
+            # check if the user clicked the tune1 button
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if tune1_btn.clicked:
+                    music.stop()
+                    music.set_volume(0.1)
+
             if event.type == pygame.QUIT:
                 running = False
 
@@ -46,10 +58,10 @@ def main_menu(screen):
 
 
 def finish(wl):
-    start_img = pygame.image.load('assets/img/start_btn.png').convert_alpha()
-    exit_img = pygame.image.load('assets/img/exit_btn.png').convert_alpha()
-    youWin = pygame.image.load('assets/img/youWin.png')
-    youLoss = pygame.image.load('assets/img/youLoss.png')
+    start_img = getImg("start_btn") .convert_alpha()
+    exit_img = getImg("exit_btn").convert_alpha()
+    youWin = getImg("youWin")
+    youLoss = getImg("youLoss")
     start_button = Button.Button(300, 350, start_img, 0.7, screen=screen)
     exit_button = Button.Button(300, 450, exit_img, 0.7, screen=screen)
     running = True
@@ -72,11 +84,6 @@ def finish(wl):
                 running = False
 
         pygame.display.update()
-
-
-def getImg(url):
-    img = pygame.image.load(f'assets/img/{url}.png')
-    return img
 
 
 def level():
@@ -121,13 +128,11 @@ def level():
 def game(bg, speed):
     player = Player(screen=screen)
     score = 0
-    enemy = Ennemy(20, 20, 2, screen=screen)
-    enemy2 = Ennemy(20, 120, 3, screen=screen)
-    enemy3 = Ennemy(20, 220, 4, screen=screen)
-    enemy4 = Ennemy(20, 320, 2, screen=screen)
-    enemy5 = Ennemy(120, 220, 3, screen=screen)
-    enemy6 = Ennemy(120, 320, 1, screen=screen)
-    enemies = [enemy6, enemy5, enemy4, enemy3, enemy2, enemy]
+    level = 0
+    # read level and ennemy from file
+    startup = Startup(screen, level)
+    ennemies = startup.init_ennemies()
+
     shoot_sound = pygame.mixer.Sound("assets/audio/laserShoot.wav")
     explosion_sound = pygame.mixer.Sound("assets/audio/explosion.wav")
     damage_sound = pygame.mixer.Sound("assets/audio/explosion1.wav")
@@ -150,7 +155,7 @@ def game(bg, speed):
                 player.move(event.key)
         # show the player
         player.show()
-        for enemy in enemies:
+        for enemy in ennemies:
             enemy.show()
             enemy.y += speed
             if(enemy.y > player.y-player.height and enemy.destroyed == False):
@@ -164,17 +169,25 @@ def game(bg, speed):
                 continue
             bullet.show()
 
-            for enemy in enemies:
+            for enemy in ennemies:
                 if((enemy.x < bullet.x < (enemy.x+enemy.width)) and (enemy.y < bullet.y < (enemy.y + enemy.height)) and (not enemy.destroyed) and (not bullet.destroy)):
                     enemy.strength -= 1
                     bullet.destroy = True
                     if(enemy.strength == 0):
+                        # display explosion picture
+                        # def explode(x, y):
+                        #     explosion = getImg('explosion')
+                        #     screen.blit(explosion, (x, y))
+                        # t = Timer(3.0, explode)
+                        # t.start()
+                        screen.blit(getImg("explosion"), (enemy.x, enemy.y))
                         score += 1
                         explosion_sound.play()
                         enemy.destroyed = True
+
                     else:
                         damage_sound.play()
-                if(score == len(enemies)):
+                if(score == len(ennemies)):
                     for bullet in Bullet.bullets:
                         bullet.destroy = True
                     running = False
