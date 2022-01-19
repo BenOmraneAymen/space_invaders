@@ -1,3 +1,4 @@
+import time
 import pygame
 from Enemy import Ennemy
 import Button
@@ -138,10 +139,14 @@ def game(bg, speed):
     damage_sound = pygame.mixer.Sound("assets/audio/explosion1.wav")
 
     # looping the function
+    explosionList = []
+
     running = True
     while running:
         screen.fill((200, 200, 200))
         screen.blit(bg, (0, 0))
+        current_time = pygame.time.get_ticks()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -174,16 +179,12 @@ def game(bg, speed):
                     enemy.strength -= 1
                     bullet.destroy = True
                     if(enemy.strength == 0):
-                        # display explosion picture
-                        # def explode(x, y):
-                        #     explosion = getImg('explosion')
-                        #     screen.blit(explosion, (x, y))
-                        # t = Timer(3.0, explode)
-                        # t.start()
-                        screen.blit(getImg("explosion"), (enemy.x, enemy.y))
                         score += 1
                         explosion_sound.play()
-                        enemy.destroyed = True
+                        enemy.destroy()
+                        end_time = current_time + 1000  # 1000 milliseconds = 1 seconds
+                        explosionList.insert(
+                            0, (end_time, enemy.x, enemy.y-60))
 
                     else:
                         damage_sound.play()
@@ -193,6 +194,13 @@ def game(bg, speed):
                     running = False
                     finish("win")
 
+        for i in range(len(explosionList)):
+            if current_time < explosionList[i][0]:
+                screen.blit(
+                    getImg("explosion"), (explosionList[i][1], explosionList[i][2]))
+            else:
+                explosionList = explosionList[:i]
+                break
         pygame.display.update()
 
 

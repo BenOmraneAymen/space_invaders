@@ -1,9 +1,11 @@
+from threading import Timer
 import pygame
 
+from Helpers import getImg
 
 
 class Ennemy:
-    def __init__(self, x, y,strength, screen):
+    def __init__(self, x, y, strength, screen):
         self.x = x
         self.y = y
         self.strength = strength
@@ -16,3 +18,7 @@ class Ennemy:
     def show(self):
         if(self.destroyed == False):
             self.screen.blit(self.image, (self.x, self.y))
+
+    def destroy(self):
+        self.destroyed = True
+        # display explosion picture
