@@ -182,9 +182,9 @@ def game(bg, speed):
                         score += 1
                         explosion_sound.play()
                         enemy.destroy()
-                        end_time = current_time + 1000  # 1000 milliseconds = 1 seconds
+                        end_time = current_time + 500  # 1000 milliseconds = 1 seconds
                         explosionList.insert(
-                            0, (end_time, enemy.x, enemy.y-60))
+                            0, (end_time, enemy.x, enemy.y))
 
                     else:
                         damage_sound.play()
