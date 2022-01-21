@@ -1,17 +1,17 @@
 from threading import Timer
 import pygame
 
-from Helpers import getImg
+from Helpers import Helpers
 
 
-class Ennemy:
+class Enemy:
     def __init__(self, x, y, strength, screen):
         self.x = x
         self.y = y
         self.strength = strength
         self.width = 100
         self.height = 78
-        self.image = pygame.image.load(f'assets/img/enemy{self.strength}.png')
+        self.image = Helpers.getImg(f"enemy{self.strength}")
         self.destroyed = False
         self.screen = screen
 

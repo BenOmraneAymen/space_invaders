@@ -1,6 +1,6 @@
 import pygame
 
-from Helpers import getSound
+from Helpers import Helpers
 
 # button class
 
@@ -17,7 +17,7 @@ class Button():
         self.screen = screen
 
     def draw(self):
-        click_sound = getSound("pickupCoin")
+        click_sound = Helpers.getSound("pickupCoin")
         action = False
         # get mouse position
         pos = pygame.mouse.get_pos()

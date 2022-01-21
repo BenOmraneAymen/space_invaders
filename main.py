@@ -1,9 +1,7 @@
-import time
 import pygame
-from Enemy import Ennemy
 import Button
 from Bullet import Bullet
-from Helpers import getImg, getSound
+from Helpers import Helpers
 from Player import Player
 from threading import Timer
 
@@ -15,18 +13,18 @@ pygame.init()
 screen = pygame.display.set_mode((800, 600))
 # Design
 pygame.display.set_caption('project:space invaders ')
-background = getImg('background')
-music = getSound("background_music")
+background = Helpers.getImg('background')
+music = Helpers.getSound("background_music")
 music.play(-1)
 
 
 def main_menu(screen):
     running = True
-    title = getImg("space-invaders-logo")
-    tune1 = getImg('tune1')
-    tune2 = getImg('tune2')
-    start_img = getImg('start_btn').convert_alpha()
-    exit_img = getImg('exit_btn').convert_alpha()
+    title = Helpers.getImg("space-invaders-logo")
+    tune1 = Helpers.getImg('tune1')
+    tune2 = Helpers.getImg('tune2')
+    start_img = Helpers.getImg('start_btn').convert_alpha()
+    exit_img = Helpers.getImg('exit_btn').convert_alpha()
     start_button = Button.Button(300, 350, start_img, 0.7, screen=screen)
     exit_button = Button.Button(300, 450, exit_img, 0.7, screen=screen)
     tune1_btn = Button.Button(700, 500, tune1, 0.3, screen=screen)
@@ -59,10 +57,10 @@ def main_menu(screen):
 
 
 def finish(wl):
-    start_img = getImg("start_btn") .convert_alpha()
-    exit_img = getImg("exit_btn").convert_alpha()
-    youWin = getImg("youWin")
-    youLoss = getImg("youLoss")
+    start_img = Helpers.getImg("start_btn") .convert_alpha()
+    exit_img = Helpers.getImg("exit_btn").convert_alpha()
+    youWin = Helpers.getImg("youWin")
+    youLoss = Helpers.getImg("youLoss")
     start_button = Button.Button(300, 350, start_img, 0.7, screen=screen)
     exit_button = Button.Button(300, 450, exit_img, 0.7, screen=screen)
     running = True
@@ -88,12 +86,12 @@ def finish(wl):
 
 
 def level():
-    pick = getImg('pick')
-    lvl1 = getImg('num1').convert_alpha()
-    lvl2 = getImg('num2').convert_alpha()
-    lvl3 = getImg('num3').convert_alpha()
-    lvl4 = getImg('num4').convert_alpha()
-    lvl5 = getImg('num5').convert_alpha()
+    pick = Helpers.getImg('pick')
+    lvl1 = Helpers.getImg('num1').convert_alpha()
+    lvl2 = Helpers.getImg('num2').convert_alpha()
+    lvl3 = Helpers.getImg('num3').convert_alpha()
+    lvl4 = Helpers.getImg('num4').convert_alpha()
+    lvl5 = Helpers.getImg('num5').convert_alpha()
     btn_lvl1 = Button.Button(100, 250, lvl1, 0.2, screen=screen)
     btn_lvl2 = Button.Button(225, 250, lvl2, 0.2, screen=screen)
     btn_lvl3 = Button.Button(350, 250, lvl3, 0.2, screen=screen)
@@ -108,16 +106,16 @@ def level():
             game(background, 0.1)
             running = False
         if btn_lvl2.draw():
-            game(background, 0.2)
+            game(background, 0.2, 2)
             running = False
         if btn_lvl3.draw():
-            game(background, 0.3)
+            game(background, 0.3, 3)
             running = False
         if btn_lvl4.draw():
-            game(background, 0.4)
+            game(background, 0.4, 4)
             running = False
         if btn_lvl5.draw():
-            game(background, 1)
+            game(background, 1, 5)
             running = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -126,10 +124,9 @@ def level():
         pygame.display.update()
 
 
-def game(bg, speed):
+def game(bg, speed, level=1):
     player = Player(screen=screen)
     score = 0
-    level = 0
     # read level and ennemy from file
     startup = Startup(screen, level)
     ennemies = startup.init_ennemies()
@@ -197,7 +194,7 @@ def game(bg, speed):
         for i in range(len(explosionList)):
             if current_time < explosionList[i][0]:
                 screen.blit(
-                    getImg("explosion"), (explosionList[i][1], explosionList[i][2]))
+                    Helpers.getImg("explosion"), (explosionList[i][1], explosionList[i][2]))
             else:
                 explosionList = explosionList[:i]
                 break
