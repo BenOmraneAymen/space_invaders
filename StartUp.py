@@ -12,7 +12,7 @@ class Startup:
             level_data = levels.split('\n')[self.level-1]
             ennemies_data = level_data.split(',')
         # create ennemy
-        print(ennemies_data)
+        # print(ennemies_data)
         ennemies = []
         for e in ennemies_data:
             aux = str(e).split(" ")

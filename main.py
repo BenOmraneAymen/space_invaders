@@ -33,11 +33,10 @@ def main_menu(screen):
         screen.blit(background, (0, 0))
         screen.blit(title, (100, 50))
         if start_button.draw():
-            print('START')
             running = False
             level(sound)
         if exit_button.draw():
-            print('EXIT')
+            # print('EXIT')
             running = False
         if tune1_btn.draw():
             if sound == True:
@@ -77,7 +76,7 @@ def finish(wl, sound):
             running = False
             level(sound)
         if exit_button.draw():
-            print('EXIT')
+            # print('EXIT')
             running = False
         if tune1_btn.draw():
             if sound == True:
@@ -153,12 +152,9 @@ def game(bg, speed, sound, level=1):
     # read level and enemy from file
     startup = Startup(screen, level)
     ennemies = startup.init_ennemies()
-    font = pygame.font.Font('freesansbold.ttf', 32)
-    font_score = pygame.font.Font('freesansbold.ttf', 20)
-
-    shoot_sound = pygame.mixer.Sound("assets/audio/laserShoot.wav")
-    explosion_sound = pygame.mixer.Sound("assets/audio/explosion.wav")
-    damage_sound = pygame.mixer.Sound("assets/audio/explosion1.wav")
+    shoot_sound = Helpers.getSound("laserShoot")
+    explosion_sound = Helpers.getSound("explosion")
+    damage_sound = Helpers.getSound("explosion1")
 
     # looping the function
     explosionList = []

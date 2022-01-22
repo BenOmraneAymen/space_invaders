@@ -1,11 +1,12 @@
 import pygame
 
 from Bullet import Bullet
+from Helpers import Helpers
 
 
 class Player:
     def __init__(self, screen):
-        self.playerImg = pygame.image.load("assets/img/space-invaders.png")
+        self.playerImg = Helpers.getImg("space-invaders")
         self.x = 370
         self.y = 500
         self.height = 70

@@ -1,13 +1,15 @@
 import pygame
 
+from Helpers import Helpers
+
 
 class Bullet():
     bullets = []
 
-    def __init__(self, x, y,screen):
+    def __init__(self, x, y, screen):
         self.x = x
         self.y = y
-        self.bulletImg = pygame.image.load("assets/img/laser.png")
+        self.bulletImg = Helpers.getImg("laser")
         self.is_fire = False
         self.destroy = False
         self.screen = screen
