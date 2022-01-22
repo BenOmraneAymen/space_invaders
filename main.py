@@ -142,12 +142,19 @@ def level(sound):
         pygame.display.update()
 
 
+def display_score(x, y, score):
+    font = pygame.font.SysFont('comicsansms', 30)
+    text = font.render("Score: " + str(score), True, (255, 255, 255))
+    screen.blit(text, (x, y))
+
+
 def game(bg, speed, sound, level=1):
     player = Player(screen=screen)
-    score = 0
-    # read level and ennemy from file
+    # read level and enemy from file
     startup = Startup(screen, level)
     ennemies = startup.init_ennemies()
+    font = pygame.font.Font('freesansbold.ttf', 32)
+    font_score = pygame.font.Font('freesansbold.ttf', 20)
 
     shoot_sound = pygame.mixer.Sound("assets/audio/laserShoot.wav")
     explosion_sound = pygame.mixer.Sound("assets/audio/explosion.wav")
@@ -194,7 +201,7 @@ def game(bg, speed, sound, level=1):
                     enemy.strength -= 1
                     bullet.destroy = True
                     if(enemy.strength == 0):
-                        score += 1
+                        player.score += 1
                         explosion_sound.play()
                         enemy.destroy()
                         end_time = current_time + 500  # 1000 milliseconds = 1 seconds
@@ -203,7 +210,7 @@ def game(bg, speed, sound, level=1):
 
                     else:
                         damage_sound.play()
-                if(score == len(ennemies)):
+                if(player.score == len(ennemies)):
                     for bullet in Bullet.bullets:
                         bullet.destroy = True
                     running = False
@@ -216,6 +223,7 @@ def game(bg, speed, sound, level=1):
             else:
                 explosionList = explosionList[:i]
                 break
+        display_score(700, 10, player.score)
         pygame.display.update()
 
 
