@@ -3,7 +3,6 @@ import Button
 from Bullet import Bullet
 from Helpers import Helpers
 from Player import Player
-from threading import Timer
 
 from StartUp import Startup
 
@@ -72,7 +71,7 @@ def finish(wl, sound):
         else:
             screen.blit(youLoss, (200, 100))
         if start_button.draw():
-            print('START')
+            # print('START')
             running = False
             level(sound)
         if exit_button.draw():
